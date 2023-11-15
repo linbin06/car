@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.bus.mapper.CarMapper">
+    <!--定义sql⽚段-->
+    <sql id="Base_Colum_list">
+        car_number, car_type, color, price, rent_price, deposit, is_renting, description, car_img ,create_time
+    </sql>
+    <!--查询⻋辆信息-->
+    <select id="queryAllCar" resultType="car">
+        select
+        <include refid="Base_Colum_list"/>
+        from car.bus_car
+        <where>
+            <if test="carNumber != null and carNumber != ''">
+                and car_number like concat("%",#{carNumber},"%")
+            </if>
+            <if test="carType != null and carType != ''">
+                and car_type like concat("%",#{carType},"%")
+            </if>
+            <if test="color != null and color != ''">
+                and color like concat("%",#{color},"%")
+            </if>
+            <if test="description != null and description != ''">
+                and description like concat("%",#{description},"%")
+            </if>
+            <if test="isRenting != null">
+                and is_renting=#{isRenting}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+    <!--添加⻋辆信息-->
+    <insert id="insertSelective">
+        insert into car.bus_car
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="carNumber != null">
+                car_number,
+            </if>
+            <if test="carType != null">
+                car_type,
+            </if>
+            <if test="color != null">
+                color,
+            </if>
+            <if test="price != null">
+                price,
+            </if>
+            <if test="rentPrice != null">
+                rent_price,
+            </if>
+            <if test="deposit != null">
+                deposit,
+            </if>
+            <if test="isRenting != null">
+                is_renting,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="carImg != null">
+                car_img,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="carNumber != null">
+                #{carNumber},
+            </if>
+            <if test="carType != null">
+                #{carType},
+            </if>
+            <if test="color != null">
+                #{color},
+            </if>
+            <if test="price != null">
+                #{price},
+            </if>
+            <if test="rentPrice != null">
+                #{rentPrice},
+            </if>
+            <if test="deposit != null">
+                #{deposit},
+            </if>
+            <if test="isRenting != null">
+                #{isRenting},
+            </if>
+            <if test="description != null">
+                #{description},
+            </if>
+            <if test="carImg != null">
+                #{carImg},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <!--根据主键查询⻋辆-->
+    <select id="selectByPrimaryKey" resultType="car">
+        select
+        <include refid="Base_Colum_list"/>
+        from car.bus_car
+        where car_number = #{carNumber}
+    </select>
+    <!--根据主键删除⻋辆信息-->
+    <delete id="deleteByPrimaryKey">
+        delete
+        from car.bus_car
+        where car_number = #{carNumber , jdbcType=VARCHAR}
+    </delete>
+
+    <update id="updateByPrimaryKeySelective">
+        update car.bus_car
+        <set>
+            <if test="carType != null">
+                car_type = #{carType},
+            </if>
+            <if test="color != null">
+                color = #{color},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="rentPrice != null">
+                rent_price = #{rentPrice},
+            </if>
+            <if test="deposit != null">
+                deposit = #{deposit},
+            </if>
+            <if test="isRenting != null">
+                is_renting = #{isRenting},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="carImg != null">
+                car_img = #{carImg},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where car_number = #{carNumber}
+    </update>
+</mapper>

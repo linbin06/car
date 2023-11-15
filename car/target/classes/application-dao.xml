@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--引⼊jdbc.properties-->
+    <bean id="placeholderConfigurer" class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
+        <property name="locations" value="classpath*:jdbc.properties"/>
+    </bean>
+    <!--引⼊druid数据源-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <!--注⼊属性-->
+        <property name="url" value="${jdbc.jdbcUrl}"/>
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!--初始化连接池⼤⼩-->
+        <property name="initialSize" value="5"/>
+        <!--设置最⼤连接数-->
+        <property name="maxActive" value="20"/>
+        <!--设置等待时间-->
+        <property name="maxWait" value="5000"/>
+    </bean>
+    <!--声明sessionFactory 并注⼊mybatis.cfg.xml-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!--注⼊数据源-->
+        <property name="dataSource" ref="dataSource"/>
+        <!--加载mybatis的配置⽂件-->
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        <!--注⼊mapper.xml-->
+        <property name="mapperLocations">
+            <array>
+                <value>classpath:mapper/*/*Mapper.xml</value>
+            </array>
+        </property>
+    </bean>
+    <!--扫描mapper接⼝-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <!--注⼊mapper接⼝所在的包-->
+        <property name="basePackage" value="com.tjetc.bus.mapper,com.tjetc.sys.mapper,com.tjetc.stat.mapper"/>
+        <!--注⼊sqlSessioinFactory-->
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+    </bean>
+</beans>

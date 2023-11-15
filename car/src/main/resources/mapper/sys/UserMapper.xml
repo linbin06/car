@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tjetc.sys.mapper.UserMapper">
+
+    <!--定义sql⽚段-->
+    <sql id="Base_Colum_list">
+        login_name, identity, real_name, sex, address, phone, pwd, position, type, available
+    </sql>
+    <!--⽤户登录查询-->
+    <select id="login" resultType="user">
+        select
+        <include refid="Base_Colum_list"/>
+        from car.sys_user
+        where login_name = #{loginName} and pwd = #{pwd}
+    </select>
+</mapper>
