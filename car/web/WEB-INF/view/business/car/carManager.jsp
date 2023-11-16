@@ -219,7 +219,7 @@
                 {field: 'deposit', title: '出租押金', align: 'center', width: '90'},
                 {
                     field: 'isRenting', title: '是否出租', align: 'center', width: '90', templet: function (d) {
-                        return d.isRenting === '1' ? '<font color=blue>已出租</font>' : '<font color=red>未出租</font>'
+                        return d.isRenting == '1' ? '<font color=blue>已出租</font>' : '<font color=red>未出租</font>'
                     }
                 },
                 {field: 'description', title: '车辆描述', align: 'center', width: '150'},

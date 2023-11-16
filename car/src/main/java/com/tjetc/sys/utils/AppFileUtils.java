@@ -26,8 +26,8 @@ public class AppFileUtils {
         try {
             properties.load(stream);
             // win和mac的地址不同
-            // PATH=properties.getProperty("win.path");
-            PATH = properties.getProperty("mac.path");
+             PATH=properties.getProperty("win.path");
+//            PATH = properties.getProperty("mac.path");
         } catch (IOException e) {
             e.printStackTrace();
         }
